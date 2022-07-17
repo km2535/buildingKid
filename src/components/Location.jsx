@@ -1,8 +1,6 @@
 const { kakao } = window;
 
-export default function Location(search) {
-  //넘어온 매개변수를 활용해서 상세 주소의 위치를 보여주면 됨.
-  console.log(search);
+export default function Location(search, type) {
   const container = document.getElementById("myMap");
   const options = {
     center: new kakao.maps.LatLng(37.497670805986395, 127.02869559980525),
@@ -15,24 +13,71 @@ export default function Location(search) {
   let imageOption = { offset: new kakao.maps.Point(25, 69) };
 
   const geocoder = new kakao.maps.services.Geocoder();
-  //처음 로딩 시 위치
-  geocoder.coord2RegionCode(
-    127.02869559980525,
-    37.497670805986395,
-    (result, status) => {
+
+  //지도 타입을 결정함
+  const mapTypes = {
+    terrain: kakao.maps.MapTypeId.TERRAIN,
+    traffic: kakao.maps.MapTypeId.TRAFFIC,
+    bicycle: kakao.maps.MapTypeId.BICYCLE,
+    useDistrict: kakao.maps.MapTypeId.USE_DISTRICT,
+  };
+  for (let key in mapTypes) {
+    map.removeOverlayMapTypeId(mapTypes[key]);
+  }
+  if (type.district) {
+    map.addOverlayMapTypeId(mapTypes.useDistrict);
+  }
+  // 지형정보 체크박스가 체크되어있으면 지도에 지형정보 지도타입을 추가합니다
+  if (type.terrain) {
+    map.addOverlayMapTypeId(mapTypes.terrain);
+  }
+  // 교통정보 체크박스가 체크되어있으면 지도에 교통정보 지도타입을 추가합니다
+  if (type.traffic) {
+    map.addOverlayMapTypeId(mapTypes.traffic);
+  }
+  // 자전거도로정보 체크박스가 체크되어있으면 지도에 자전거도로정보 지도타입을 추가합니다
+  if (type.bicycle) {
+    map.addOverlayMapTypeId(mapTypes.bicycle);
+  }
+
+  //위치 정보를 통한 맵 로딩(그렇게 정확하지는 않음.)
+  if (navigator.geolocation) {
+    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const lat = position.coords.latitude, // 위도
+        lon = position.coords.longitude; // 경도
+      const locPosition = new kakao.maps.LatLng(lat, lon);
+      map.setCenter(locPosition);
+      //console.log(locPosition);
+    });
+  } else {
+    // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+    const locPosition = new kakao.maps.LatLng(
+      37.497670805986395,
+      127.02869559980525
+    );
+    map.setCenter(locPosition);
+  }
+  //지도 검색 이벤트
+  const ps = new kakao.maps.services.Places();
+  if (search != null) {
+    ps.keywordSearch(search, placesSearchCB);
+    function placesSearchCB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
-        //console.log("지역 명칭 : " + result[0].address_name);
-        //console.log("행정구역 코드 : " + result[0].code);
-        buildinguse(result[0].code);
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        const bounds = new kakao.maps.LatLngBounds();
+
+        for (let i = 0; i < data.length; i++) {
+          bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setMaxLevel(5);
+        map.setBounds(bounds);
       }
     }
-  );
-  // 마커 클러스터러를 생성합니다
-  // var clusterer = new kakao.maps.MarkerClusterer({
-  //   map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-  //   averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-  //   minLevel: 5, // 클러스터 할 최소 지도 레벨
-  // });
+  }
 
   //지도 이동 이벤트
   kakao.maps.event.addListener(map, "dragend", () => {
@@ -108,7 +153,7 @@ export default function Location(search) {
                     );
                     // 마커 클러스터러를 생성합니다
 
-                    var marker = new kakao.maps.Marker({
+                    let marker = new kakao.maps.Marker({
                       position: coords,
                       image: markerImage, // 마커이미지 설정
                     });

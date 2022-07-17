@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const Search = ({ setSearch }) => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(null);
   const ref = useRef();
   const changeHandler = () => {
     //console.log(ref.current.value);

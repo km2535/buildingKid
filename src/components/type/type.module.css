@@ -1,0 +1,72 @@
+@import url('../../common.css');
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+:root{
+  --font-main: 'NanumSquareRound';
+}
+.wrapper{
+  position: absolute;
+  top: 13%;
+  left: 2%;
+  width: 300px;
+  z-index: 11;
+}
+.container{
+  display: flex;
+  align-items: center;
+  background-color: var(--pantone);
+  color: var(--white);
+}
+.container h2{
+  width: 75%;
+  font-size: 18px;
+  font-family: var( --font-main);
+  text-align: center;
+  user-select: none;
+}
+.icon{
+  width: 25%;
+  font-size: 25px;
+  cursor: pointer;
+  transform: rotate(-180deg);
+  transition: transform 0.5s;
+}
+.iconReverse{
+  width: 25%;
+  font-size: 25px;
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+.optionContainer{
+  overflow: hidden;
+}
+.optionHidden{
+  overflow: hidden;
+}
+.optionHidden .content{
+  transform: translateY(-200px);
+  transition: transform 0.5s;
+}
+.content{
+  background-color: var(--white);
+  transition: transform 0.5s;
+}
+.ul{
+  list-style: none;
+  margin: 0;
+  padding: 12px 20px;
+}
+.li{
+ font-size: 18px;
+ margin: 0 auto 10px;
+ font-family: var( --font-main);
+}
+.li label input{
+  margin-right: 20px;
+  width: 18px;
+  height: 18px;
+}
