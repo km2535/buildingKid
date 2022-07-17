@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/buildingKid/static/css/main.809f4c36.css",
+    "main.js": "/buildingKid/static/js/main.94b7032c.js",
+    "index.html": "/buildingKid/index.html",
+    "main.809f4c36.css.map": "/buildingKid/static/css/main.809f4c36.css.map",
+    "main.94b7032c.js.map": "/buildingKid/static/js/main.94b7032c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.809f4c36.css",
+    "static/js/main.94b7032c.js"
+  ]
+}
