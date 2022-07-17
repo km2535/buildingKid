@@ -1,0 +1,35 @@
+@import url('../../common.css');
+.container{
+  position: absolute;
+  background-color: var(--white);
+  z-index: 11;
+  top: 5%;
+  left: 2%;
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.img{
+  padding: 10px;
+  width: 60px;
+  height: 40px;
+}
+.input{
+  border: none;
+  width: 170px;
+  height: 40px;
+}
+.input::placeholder{
+  color: var(--pantone);
+  font-weight: 200;
+  text-align: center;
+}
+.button{
+  border: none;
+  background: none;
+}
+.icon{
+  color: var(--pantone-blue);
+  font-size: 25px;
+  cursor: pointer;
+}

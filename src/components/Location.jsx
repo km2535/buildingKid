@@ -1,13 +1,12 @@
 const { kakao } = window;
 
-export default function Location() {
-  // 법정동 state사용하기
-  //const [pnu, setPnu] = useState();
-
+export default function Location(search) {
+  //넘어온 매개변수를 활용해서 상세 주소의 위치를 보여주면 됨.
+  console.log(search);
   const container = document.getElementById("myMap");
   const options = {
     center: new kakao.maps.LatLng(37.497670805986395, 127.02869559980525),
-    level: 3,
+    level: 2,
   };
   const map = new kakao.maps.Map(container, options);
 
@@ -22,7 +21,7 @@ export default function Location() {
     37.497670805986395,
     (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
-        console.log("지역 명칭 : " + result[0].address_name);
+        //console.log("지역 명칭 : " + result[0].address_name);
         //console.log("행정구역 코드 : " + result[0].code);
         buildinguse(result[0].code);
       }
@@ -91,7 +90,7 @@ export default function Location() {
               return response.json();
             })
             .then((data) => {
-              console.log(data.indvdLandPrices.field[0].pblntfPclnd);
+              //console.log(data.indvdLandPrices.field[0].pblntfPclnd);
 
               geocoder.addressSearch(
                 info.ldCodeNm + info.mnnmSlno,
